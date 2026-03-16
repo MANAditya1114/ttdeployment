@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:8081",
+  baseURL: "https://ttdeployment-ddu1.onrender.com",
 });
 
 API.interceptors.request.use((config) => {
