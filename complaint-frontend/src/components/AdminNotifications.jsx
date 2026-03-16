@@ -10,7 +10,7 @@ function AdminNotifications({ onNewComplaint }) {
 
 useEffect(() => {
 
-const socket = new SockJS("http://localhost:8081/ws");
+const socket = new SockJS("https://ttdeployment-ddu1.onrender.com/ws");
 
 const stompClient = new Client({
 webSocketFactory: () => socket,

@@ -19,7 +19,7 @@ setLoading(true);
 try{
 
 const res = await fetch(
-`http://localhost:8081/api/auth/reset-password/${token}`,
+`https://ttdeployment-ddu1.onrender.com/api/auth/reset-password/${token}`,
 {
 method:"POST",
 headers:{

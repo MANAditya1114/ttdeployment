@@ -20,7 +20,7 @@ const verifyAccount = async () => {
 try{
 
 const res = await fetch(
-`http://localhost:8081/api/auth/verify/${token}`
+`https://ttdeployment-ddu1.onrender.com/api/auth/verify/${token}`
 );
 
 const data = await res.json();

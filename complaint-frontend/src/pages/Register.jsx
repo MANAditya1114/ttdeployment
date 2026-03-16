@@ -30,7 +30,7 @@ FETCH DEPARTMENTS
 
 useEffect(()=>{
 
-fetch("http://localhost:8081/api/departments")
+fetch("https://ttdeployment-ddu1.onrender.com/api/departments")
 .then(res=>res.json())
 .then(data=>setDepartments(data))
 .catch(()=>toast.error("Failed to load departments"))
@@ -107,7 +107,7 @@ try{
 
 toast.loading("Creating account...",{id:"register"});
 
-const response = await fetch("http://localhost:8081/api/auth/register",{
+const response = await fetch("https://ttdeployment-ddu1.onrender.com/api/auth/register",{
 
 method:"POST",
 headers:{

@@ -4,7 +4,7 @@ function GoogleLoginButton(){
 
 const handleGoogleLogin = ()=>{
 
-window.location.href="http://localhost:8081/oauth2/authorization/google";
+window.location.href="https://ttdeployment-ddu1.onrender.com/oauth2/authorization/google";
 
 };
 

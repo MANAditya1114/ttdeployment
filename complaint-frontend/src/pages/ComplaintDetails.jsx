@@ -217,7 +217,7 @@ complaint.attachmentPath.endsWith(".jpg") ||
 complaint.attachmentPath.endsWith(".jpeg") ? (
 
 <img
-src={`http://localhost:8081/uploads/images/${complaint.attachmentPath}`}
+src={`https://ttdeployment-ddu1.onrender.com/uploads/images/${complaint.attachmentPath}`}
 alt="Complaint Attachment"
 className="w-64 rounded shadow"
 />
@@ -225,7 +225,7 @@ className="w-64 rounded shadow"
 ) : (
 
 <a
-href={`http://localhost:8081/uploads/pdfs/${complaint.attachmentPath}`}
+href={`https://ttdeployment-ddu1.onrender.com/uploads/pdfs/${complaint.attachmentPath}`}
 target="_blank"
 rel="noopener noreferrer"
 className="text-blue-600 underline"

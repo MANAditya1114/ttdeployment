@@ -25,7 +25,7 @@ try{
 
 toast.loading("Sending reset email",{id:"reset"});
 
-const res = await fetch("http://localhost:8081/api/auth/forgot-password",{
+const res = await fetch("https://ttdeployment-ddu1.onrender.com/api/auth/forgot-password",{
 
 method:"POST",
 headers:{
