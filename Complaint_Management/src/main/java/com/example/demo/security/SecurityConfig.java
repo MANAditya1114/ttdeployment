@@ -47,8 +47,10 @@ public class SecurityConfig {
 
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOrigins(List.of("http://localhost:5173"));
-        config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
+        config.setAllowedOrigins(List.of(
+                "http://localhost:5173",
+                "https://ttdeployment-git-main-manaditya1114s-projects.vercel.app"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
 
@@ -64,73 +66,69 @@ public class SecurityConfig {
 
         http
 
-            // ENABLE CORS
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                // ENABLE CORS
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
-            // DISABLE CSRF
-            .csrf(csrf -> csrf.disable())
+                // DISABLE CSRF
+                .csrf(csrf -> csrf.disable())
 
-            // H2 Console fix
-            .headers(headers -> headers.frameOptions(frame -> frame.disable()))
+                // H2 Console fix
+                .headers(headers -> headers.frameOptions(frame -> frame.disable()))
 
-            // JWT STATELESS SESSION
-            .sessionManagement(session ->
-                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            )
+                // JWT STATELESS SESSION
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-            .authorizeHttpRequests(auth -> auth
+                .authorizeHttpRequests(auth -> auth
 
-                    // Allow browser preflight
-                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        // Allow browser preflight
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                    // ⭐ ALLOW WEBSOCKET
-                    .requestMatchers("/ws/**").permitAll()
+                        // ⭐ ALLOW WEBSOCKET
+                        .requestMatchers("/ws/**").permitAll()
 
-                    // PUBLIC APIs
-                    .requestMatchers("/api/auth/**").permitAll()
+                        // PUBLIC APIs
+                        .requestMatchers("/api/auth/**").permitAll()
 
-                    // EMAIL TEST API
-                    .requestMatchers("/api/test/**").permitAll()
+                        // EMAIL TEST API
+                        .requestMatchers("/api/test/**").permitAll()
 
-                    // H2 console
-                    .requestMatchers("/h2-console/**").permitAll()
+                        // H2 console
+                        .requestMatchers("/h2-console/**").permitAll()
 
-                    // ⭐ ALLOW ANYONE TO VIEW DEPARTMENTS (for register page dropdown)
-                    .requestMatchers(HttpMethod.GET,"/api/departments/**").permitAll()
+                        // ⭐ ALLOW ANYONE TO VIEW DEPARTMENTS (for register page dropdown)
+                        .requestMatchers(HttpMethod.GET, "/api/departments/**").permitAll()
 
-                    // ⭐ ONLY ADMIN CAN CREATE / UPDATE / DELETE DEPARTMENTS
-                    .requestMatchers(HttpMethod.POST,"/api/departments/**").hasRole("ADMIN")
-                    .requestMatchers(HttpMethod.PUT,"/api/departments/**").hasRole("ADMIN")
-                    .requestMatchers(HttpMethod.DELETE,"/api/departments/**").hasRole("ADMIN")
+                        // ⭐ ONLY ADMIN CAN CREATE / UPDATE / DELETE DEPARTMENTS
+                        .requestMatchers(HttpMethod.POST, "/api/departments/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/departments/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/departments/**").hasRole("ADMIN")
 
-                    // ADMIN APIs
-                    .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        // ADMIN APIs
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
 
-                    // USER APIs
-                    .requestMatchers("/api/user/**").hasAnyRole("USER","ADMIN")
+                        // USER APIs
+                        .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
 
-                    // EVERYTHING ELSE
-                    .anyRequest().authenticated()
-            )
+                        // EVERYTHING ELSE
+                        .anyRequest().authenticated())
 
-            // ERROR HANDLING
-            .exceptionHandling(ex -> ex
+                // ERROR HANDLING
+                .exceptionHandling(ex -> ex
 
-                    .authenticationEntryPoint((req, res, e) -> {
-                        res.setStatus(401);
-                        res.setContentType("application/json");
-                        res.getWriter().write("{\"error\":\"Unauthorized\"}");
-                    })
+                        .authenticationEntryPoint((req, res, e) -> {
+                            res.setStatus(401);
+                            res.setContentType("application/json");
+                            res.getWriter().write("{\"error\":\"Unauthorized\"}");
+                        })
 
-                    .accessDeniedHandler((req, res, e) -> {
-                        res.setStatus(403);
-                        res.setContentType("application/json");
-                        res.getWriter().write("{\"error\":\"Forbidden\"}");
-                    })
-            )
+                        .accessDeniedHandler((req, res, e) -> {
+                            res.setStatus(403);
+                            res.setContentType("application/json");
+                            res.getWriter().write("{\"error\":\"Forbidden\"}");
+                        }))
 
-            // JWT FILTER
-            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                // JWT FILTER
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
